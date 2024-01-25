@@ -1,0 +1,16 @@
+.cardContainer {
+  display: flex;
+  margin: auto;
+  padding: 50px;
+  padding-left: 20px;
+  margin-left: 250px;
+  gap: 20px;
+}
+
+.quizcardContainer {
+  display: flex;
+  margin: auto;
+  padding: 20px;
+  margin-left: 250px;
+  gap: 40px;
+}

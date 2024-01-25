@@ -1,0 +1,384 @@
+/* Modal.module.css */
+
+.modaloverlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modalcontent {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  border-radius: 10px;
+  background: #fff;
+  width: auto; /* Adjusted to auto */
+  height: auto; /* Adjusted to auto */
+  flex-shrink: 0;
+  padding: 80px;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+  overflow: hidden; /* Optional: Hide overflowing content */
+}
+
+.inputQuestion {
+  width: 673px;
+  height: 50px;
+  border: 0;
+  padding-left: 20px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+}
+
+.inputQuestion::placeholder {
+  color: #9f9f9f;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: bolder;
+  line-height: normal;
+}
+
+.closebutton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 10px;
+}
+
+.inputField {
+  width: 673px;
+  height: 81px;
+  flex-shrink: 0;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+  border: 1px solid #ddd; /* Add a border for better visibility */
+}
+
+.inputField::placeholder {
+  color: #9f9f9f;
+  font-size: 25px;
+  font-family: "Poppins";
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 110px;
+}
+
+.circularCheckboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.quizTypeText {
+  text-align: center;
+  color: #9f9f9f;
+  font-size: 25px;
+  font-family: "Poppins";
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+.pollOptionTypeText {
+  color: #9f9f9f;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: lighter;
+  line-height: normal;
+}
+.pollOptionTypeLabel {
+  color: #9f9f9f;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-right: 30px;
+  margin-left: 0px;
+}
+
+.checkboxOption {
+  display: flex;
+  width: 296px;
+  height: 50px;
+  border-radius: 10px;
+  border: 0;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+  font-size: 20px;
+  font-family: "Poppins";
+  font-weight: 500;
+  word-wrap: break-word;
+  color: #9f9f9f;
+  background-color: #fff;
+}
+
+.checkboxOptionQuiz {
+  display: flex;
+  width: 171px;
+  height: 50px;
+  border-radius: 10px;
+  border: 0;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+  font-size: 20px;
+  font-family: "Poppins";
+  font-weight: 500;
+  word-wrap: break-word;
+  color: #9f9f9f;
+  background-color: #fff;
+}
+
+.PollcheckboxOption {
+  display: flex;
+  width: 296px;
+  height: 50px;
+  border-radius: 10px;
+  border: 0;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+  font-size: 20px;
+  font-family: "Poppins";
+  font-weight: 500;
+  word-wrap: break-word;
+  color: #9f9f9f;
+  background-color: #fff;
+  padding-left: 20px;
+}
+
+.checkboxOption::placeholder {
+  font-size: 20px;
+  font-family: "Poppins";
+  font-weight: bolder;
+  word-wrap: break-word;
+  color: #9f9f9f;
+  background-color: #fff;
+}
+
+.checkboxOptionText {
+  color: #9f9f9f;
+  font-size: 20px;
+  font-family: "Poppins";
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+.checkboxOptionQuiz.selected {
+  background: #60b84b;
+  color: #fff;
+}
+button {
+  cursor: pointer;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 60px;
+}
+
+.continueButton {
+  border-radius: 10px;
+  background: #60b84b;
+  padding: 0;
+  width: 279px;
+  height: 48.144px;
+  flex-shrink: 0;
+  cursor: pointer;
+  color: #fff;
+  font-family: Poppins;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.cancelButton {
+  width: 279px;
+  height: 46.144px;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0;
+
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  border: none;
+  color: #474444;
+  font-family: Poppins;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* Modal.module.css */
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.circularCheckbox {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #d9d9d9;
+  border-radius: 50%;
+  margin-right: 10px; /* Adjust the margin-right to add spacing between checkboxes */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.innerCheckbox {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #353434;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.circularCheckbox.checked .innerCheckbox {
+  opacity: 1;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 0; /* Remove the default margin between checkbox labels */
+}
+
+/* ... Other styles ... */
+
+.columnContainer {
+  display: block;
+  justify-self: left;
+}
+
+.removeChoiceBtn {
+  margin-left: 10px;
+  background-color: #fff;
+  padding: 5px;
+  cursor: pointer;
+  color: #ff6b6b;
+  border: none;
+  border-radius: 4px;
+}
+
+.PollOptionContainer {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+/* Modal.module.css */
+.questionRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.questionIndicator {
+  width: 20px;
+  height: 20px;
+  font-size: 24px;
+  display: flex;
+  font-weight: bold;
+  background: #fff;
+  color: #9f9f9f;
+  padding: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.15));
+  margin-right: 10px;
+}
+
+.addQuestionButton {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #fff;
+  color: #9f9f9f;
+  padding: 40px;
+  border-radius: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addQuestionButton svg {
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+}
+
+/* Modal.module.css (or your styles file) */
+.removeQuestionButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  color: #ff6b6b;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: -10px;
+  margin-right: -10px;
+  z-index: 1;
+}

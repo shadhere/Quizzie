@@ -1,0 +1,62 @@
+/* Sidebar.module.css */
+.sidebarContainer {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarHeader {
+  text-align: center;
+  color: #474444;
+  font-family: "Jomhuria", sans-serif;
+  font-size: 70px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.sidebarLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+}
+
+.sidebarLink {
+  padding: 10px;
+  text-decoration: none;
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  color: #474444;
+  transition: 0.3s;
+  align-self: center;
+  margin-top: 0px;
+  margin-bottom: 40px;
+}
+
+.sidebarLink:hover {
+  color: #555;
+}
+
+.sidebarDivider {
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  margin-bottom: 20px;
+}
+
+.activeLink {
+  color: #007bff;
+  width: 176px;
+  height: 38px;
+  flex-shrink: 0;
+}

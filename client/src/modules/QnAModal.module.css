@@ -1,0 +1,48 @@
+/* QnAModal.module.css */
+.qnaModalContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+.qnaInput {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+}
+
+.qnaOptionsContainer {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.qnaOptionLabel {
+  margin-bottom: 5px;
+}
+
+.qnaButtonsContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.qnaButton {
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.qnaCancelButton {
+  background-color: #ff6b6b;
+  color: #fff;
+}
+
+.qnaContinueButton {
+  background-color: #60b84b;
+  color: #fff;
+}
