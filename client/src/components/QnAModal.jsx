@@ -1,8 +1,11 @@
 // QnAModal.js
 import React, { useState } from "react";
 import Modal from "./Modal";
-import ChoiceInput from "./ChoiceInput";
+import ChoiceInput from "./AnswerChoiceEditor";
 import styles from "../modules/Modal.module.css";
+import QuestionIndicatorsRow from "./QuestionToggleBar";
+import QuestionInput from "./QuestionTitleAndType";
+import TimerInputComponent from "./TimerInput";
 
 const QnAModal = ({ isQnaOpen, onCloseQna }) => {
   const [questions, setQuestions] = useState([
@@ -70,97 +73,55 @@ const QnAModal = ({ isQnaOpen, onCloseQna }) => {
     }
   };
 
-  return (
-    <Modal isOpen={isQnaOpen} onClose={onCloseQna}>
-      <div className={styles.questionRow}>
-        {questions.map((question) => (
-          <div
-            key={question.id}
-            className={`${styles.questionIndicator} ${
-              question.id === currentQuestion ? styles.active : ""
-            }`}
-            onClick={() => handleToggleQuestion(question.id)}
-          >
-            {question.id}
-            {question.id !== 1 && (
-              <div
-                className={styles.removeQuestionButton}
-                onClick={() => handleRemoveQuestion(question.id)}
-              >
-                &#215; {/* Unicode for "×" */}
-              </div>
-            )}
-          </div>
-        ))}
-        {questions.length < maxQuestions && (
-          <div className={styles.addQuestionButton} onClick={handleAddQuestion}>
-            +
-          </div>
-        )}
-        {questions.length === maxQuestions && (
-          <div
-            className={styles.removeQuestionButton}
-            onClick={handleRemoveQuestion}
-          >
-            X
-          </div>
-        )}
-      </div>
+  const handleTimerChange = (value) => {
+    // Handle timer change logic here
+    console.log("Timer changed:", value);
+  };
 
-      <input
-        className={styles.inputQuestion}
-        type="text"
-        placeholder={`Poll Question ${currentQuestion}`}
-        value={questions[currentQuestion - 1]?.text}
-        onChange={(e) => {
+  return (
+    <Modal
+      isOpen={isQnaOpen}
+      onClose={onCloseQna}
+      questions={questions}
+      currentQuestion={currentQuestion}
+      selectedOption={selectedOption}
+      handleInputChange={(value) => {
+        const updatedQuestions = [...questions];
+        updatedQuestions[currentQuestion - 1].text = value;
+        setQuestions(updatedQuestions);
+      }}
+      handleOptionChange={handleOptionChange}
+    >
+      {" "}
+      <QuestionIndicatorsRow
+        questions={questions}
+        currentQuestion={currentQuestion}
+        handleToggleQuestion={handleToggleQuestion}
+        handleRemoveQuestion={handleRemoveQuestion}
+        handleAddQuestion={handleAddQuestion}
+        maxQuestions={maxQuestions}
+      />
+      <QuestionInput
+        question={questions[currentQuestion - 1]}
+        currentOption={selectedOption}
+        handleInputChange={(value) => {
           const updatedQuestions = [...questions];
-          updatedQuestions[currentQuestion - 1].text = e.target.value;
+          updatedQuestions[currentQuestion - 1].text = value;
           setQuestions(updatedQuestions);
         }}
+        handleOptionChange={handleOptionChange}
       />
-      <div className={styles.circularCheckboxContainer}>
-        <label className={styles.checkboxLabel}>
-          <span className={styles.pollOptionTypeLabel}>Option Type</span>
-          <div
-            className={`${styles.circularCheckbox} ${
-              selectedOption === "text" && styles.checked
-            }`}
-            onClick={() => handleOptionChange("text")}
-          >
-            <div className={`${styles.innerCheckbox}`} />
-          </div>
-          <span className={styles.pollOptionTypeText}>Text</span>
-        </label>
-        <label className={styles.checkboxLabel}>
-          <div
-            className={`${styles.circularCheckbox} ${
-              selectedOption === "image" && styles.checked
-            }`}
-            onClick={() => handleOptionChange("image")}
-          >
-            <div className={`${styles.innerCheckbox}`} />
-          </div>
-          <span className={styles.pollOptionTypeText}>Image URL</span>
-        </label>
-        <label className={styles.checkboxLabel}>
-          <div
-            className={`${styles.circularCheckbox} ${
-              selectedOption === "textAndImage" && styles.checked
-            }`}
-            onClick={() => handleOptionChange("textAndImage")}
-          >
-            <div className={`${styles.innerCheckbox}`} />
-          </div>
-          <span className={styles.pollOptionTypeText}>Text and Image URL</span>
-        </label>
+      <div className={styles.ChoiceAndTimerContainer}>
+        {selectedOption && (
+          <ChoiceInput
+            options={options}
+            addOption={addOption}
+            removeOption={removeOption}
+            selectedOption={selectedOption}
+          />
+        )}
+        <TimerInputComponent onTimerChange={handleTimerChange} />
       </div>
-      {selectedOption && (
-        <ChoiceInput
-          options={options}
-          addOption={addOption}
-          removeOption={removeOption}
-        />
-      )}
       <div className={styles.buttonContainer}>
         <button
           className={`${styles.cancelButton} ${styles.qnaButton}`}
