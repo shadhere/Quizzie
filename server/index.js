@@ -7,6 +7,11 @@ dotenv.config();
 const User = require("./models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const authenticateUser = require("./middleware/authenticateUser");
+const quizRoutes = require("./routes/quizRoutes"); // Import quiz routes
+const dashboardRoutes = require("./routes/dashboardRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
+const attemptRoute = require("./routes/attemptRoute");
 
 const app = express();
 app.use(cors());
@@ -80,6 +85,10 @@ app.get("/", (req, res) => {
   console.log("all");
 });
 
+app.use(dashboardRoutes);
+app.use(quizRoutes);
+app.use(analyticsRoutes);
+app.use(attemptRoute);
 app.listen(process.env.PORT, () => {
   mongoose
     .connect(process.env.MONGO_URL)

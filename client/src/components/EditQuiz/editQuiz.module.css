@@ -1,0 +1,83 @@
+/* Modal Container */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Modal Content */
+/* Modal Content */
+.modalContent {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 800px; /* Set a maximum width as needed */
+}
+
+/* Heading */
+.modalContent h2 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+/* Button Container */
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Cancel Button */
+.cancelButton {
+  background-color: #ccc;
+  color: #333;
+}
+
+/* Save Changes Button */
+.continueButton {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Question Indicators Container */
+.questionIndicatorsContainer {
+  margin-bottom: 20px;
+}
+
+/* Question Indicator */
+.questionIndicator {
+  width: 20px;
+  height: 20px;
+  background-color: #007bff;
+  border-radius: 50%;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+/* Active Question Indicator */
+.questionIndicator.active {
+  background-color: #fff;
+  border: 2px solid #007bff;
+}
+
+/* Choice and Timer Container */
+.ChoiceAndTimerContainer {
+  margin-top: 20px;
+}
+
+/* Choice Input */
+.choiceInput {
+  /* Add your styles for ChoiceInput component */
+}
+
+/* Question Input */
+.questionInput {
+  /* Add your styles for QuestionInput component */
+}
