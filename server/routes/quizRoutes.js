@@ -1,4 +1,3 @@
-// Example usage in routes/quizRoutes.js
 const express = require("express");
 const router = express.Router();
 const Quiz = require("../models/quizModel");
@@ -7,9 +6,12 @@ const authenticateUser = require("../middleware/authenticateUser");
 // Create a new quiz
 router.post("/quizzes", authenticateUser, async (req, res) => {
   try {
-    const { quiz, qna } = req.body;
+    const { quiz, questions } = req.body;
+    console.log("Object Data:", quiz);
+    console.log("Array Data:", questions);
+
     // Ensure required fields are present
-    if (!quiz || !quiz.title || !quiz.selectedQuizType || !qna) {
+    if (!quiz || !quiz.title || !quiz.selectedQuizType) {
       return res
         .status(400)
         .json({ success: false, message: "Invalid request data" });
@@ -20,18 +22,15 @@ router.post("/quizzes", authenticateUser, async (req, res) => {
       title: quiz.title,
       selectedQuizType: quiz.selectedQuizType,
       createdBy: req.user._id, // Associating the user with the quiz
-      qna: {
-        questions: qna.questions,
-        currentQuestion: qna.currentQuestion,
-        maxQuestions: qna.maxQuestions,
-        timer: qna.timer,
-      },
+      questions: questions, // Use the questions array from the request
+      currentQuestion: quiz.currentQuestion,
+      maxQuestions: quiz.maxQuestions,
+      timer: quiz.timer,
     });
 
-    // Save the new quiz to the database
     await newQuiz.save();
 
-    res.status(201).json(newQuiz);
+    res.status(201).json({ success: true, quiz: newQuiz });
   } catch (error) {
     console.error("Quiz creation failed:", error.message);
 
@@ -40,7 +39,7 @@ router.post("/quizzes", authenticateUser, async (req, res) => {
       return res.status(400).json({
         success: false,
         message: "Validation failed",
-        error: error.errors,
+        errors: error.errors,
       });
     }
 
@@ -55,16 +54,18 @@ router.get("/quizzes/:id", async (req, res) => {
     const quiz = await Quiz.findById(quizId);
 
     if (!quiz) {
-      return res.status(404).json({ error: "Quiz not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Quiz not found" });
     }
 
     quiz.impressions += 1;
     await quiz.save();
     console.log(`Quiz ID: ${quizId}, Impressions: ${quiz.impressions}`);
-    res.status(200).json(quiz);
+    res.status(200).json({ success: true, quiz });
   } catch (error) {
     console.error("Error fetching quiz:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 });
 

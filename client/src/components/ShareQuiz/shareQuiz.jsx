@@ -23,7 +23,7 @@ const ShareQuizModal = ({ generatedLink }) => {
   };
 
   return (
-    <div>
+    <div className={styles.shareLinkContainer}>
       {/* Text with specified style */}
       <ToastContainer />
 
@@ -31,12 +31,12 @@ const ShareQuizModal = ({ generatedLink }) => {
 
       {/* Modal content with specified style */}
       <div className={styles.quizLinkContainer}>
-        {generatedLink.generatedLink}
+        <h9>Your link is here</h9>
       </div>
 
       {/* Button to copy link to clipboard */}
       <button className={styles.button} onClick={handleCopyLink}>
-        Copy Link
+        Share
       </button>
     </div>
   );

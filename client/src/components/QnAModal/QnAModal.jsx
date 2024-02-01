@@ -11,6 +11,7 @@ const QnAModal = ({
   isQnaOpen,
   onCloseQna,
   submitQuiz,
+  currentModal,
 }) => {
   const onSave = () => {
     // Additional logic if needed
@@ -21,28 +22,22 @@ const QnAModal = ({
 
   const handleToggleQuestion = (index) => {
     setFormData((prevData) => {
-      const { questions, currentQuestion } = prevData.qna;
-
       // Check if the provided index is valid
       if (
         typeof index !== "undefined" &&
-        questions &&
         index >= 0 &&
-        index < questions.length
+        index < prevData.questions.length
       ) {
-        const selectedQuestion = questions[index];
+        const selectedQuestion = prevData.questions[index];
         const selectedQuestionType = selectedQuestion
-          ? selectedQuestion.correctOption
+          ? selectedQuestion.selectedQuestionType
           : null;
 
         return {
           ...prevData,
-          qna: {
-            ...prevData.qna,
-            currentQuestion: index,
-            selectedQuestionType,
-            options: [],
-          },
+          currentQuestion: index,
+          selectedQuestionType,
+          options: [],
         };
       } else {
         // Handle the case where the index is undefined or out of range
@@ -53,7 +48,7 @@ const QnAModal = ({
   };
 
   const handleAddQuestion = () => {
-    if (formData.qna.questions.length < formData.qna.maxQuestions) {
+    if (formData.questions.length < formData.maxQuestions) {
       const newQuestion = {
         text: "", // or provide some default text
         correctOption: null,
@@ -64,43 +59,35 @@ const QnAModal = ({
 
       setFormData((prevData) => ({
         ...prevData,
-        qna: {
-          ...prevData.qna,
-          questions: [...prevData.qna.questions, newQuestion],
-          currentQuestion: prevData.qna.questions.length,
-          selectedQuestionType: null,
-          options: [],
-        },
+        questions: [...prevData.questions, newQuestion],
+        currentQuestion: prevData.questions.length,
+        selectedQuestionType: null,
+        options: [],
       }));
     }
   };
 
   const handleRemoveQuestion = () => {
-    if (formData.qna.questions.length > 1) {
+    if (formData.questions.length > 1) {
       // Ensure there is more than one question
-      const updatedQuestions = formData.qna.questions.filter(
-        (_, index) => index !== formData.qna.currentQuestion
+      const updatedQuestions = formData.questions.filter(
+        (_, index) => index !== formData.currentQuestion
       );
 
       const updatedCurrentQuestion =
-        formData.qna.currentQuestion >= updatedQuestions.length
+        formData.currentQuestion >= updatedQuestions.length
           ? updatedQuestions.length - 1
-          : formData.qna.currentQuestion;
+          : formData.currentQuestion;
 
       setFormData((prevData) => ({
         ...prevData,
-        qna: {
-          ...prevData.qna,
-          questions: updatedQuestions,
-          currentQuestion: updatedCurrentQuestion,
-          options: [],
-          timer: prevData.qna.timer,
-          selectedQuestionType:
-            updatedQuestions.length > 0
-              ? updatedQuestions[updatedQuestions.length - 1].correctOption ||
-                null
-              : null,
-        },
+        questions: updatedQuestions,
+        currentQuestion: updatedCurrentQuestion,
+        selectedQuestionType:
+          updatedQuestions.length > 0
+            ? updatedQuestions[updatedQuestions.length - 1]
+                .selectedQuestionType || null
+            : null,
       }));
     }
   };
@@ -116,8 +103,8 @@ const QnAModal = ({
 
     setFormData((prevData) => ({
       ...prevData,
-      qna: {
-        ...prevData.qna,
+      quiz: {
+        ...prevData,
         timer: timerValue,
       },
     }));
@@ -125,7 +112,7 @@ const QnAModal = ({
 
   const addOption = (questionIndex) => {
     setFormData((prevData) => {
-      const { questions, currentQuestion } = prevData.qna;
+      const { questions, currentQuestion } = prevData;
 
       if (questions && questionIndex >= 0 && questionIndex < questions.length) {
         const updatedQuestions = [...questions];
@@ -139,7 +126,7 @@ const QnAModal = ({
           return {
             ...prevData,
             qna: {
-              ...prevData.qna,
+              ...prevData,
               questions: updatedQuestions,
             },
           };
@@ -157,7 +144,7 @@ const QnAModal = ({
 
   const removeOption = (optionIndex) => {
     setFormData((prevData) => {
-      const { questions, currentQuestion } = prevData.qna;
+      const { questions, currentQuestion } = prevData;
 
       // Check if the currentQuestion index is valid
       if (
@@ -174,10 +161,9 @@ const QnAModal = ({
 
           // If the removed option was the correct answer, reset the correct answer index
           if (
-            optionIndex ===
-            newFormData.qna.questions[currentQuestion].correctOption
+            optionIndex === newFormData.questions[currentQuestion].correctOption
           ) {
-            newFormData.qna.questions[currentQuestion].correctOption = null;
+            newFormData.questions[currentQuestion].correctOption = null;
           }
 
           options.splice(optionIndex, 1);
@@ -197,7 +183,7 @@ const QnAModal = ({
 
   const handleInputChange = (optionIndex, property, value) => {
     setFormData((prevData) => {
-      const { questions, currentQuestion } = prevData.qna;
+      const { questions, currentQuestion } = prevData;
 
       // Check if the currentQuestion index is valid
       if (
@@ -208,16 +194,14 @@ const QnAModal = ({
       ) {
         const newFormData = { ...prevData };
 
-        newFormData.qna.questions[currentQuestion].options[optionIndex][
-          property
-        ] = value;
+        newFormData.questions[currentQuestion].options[optionIndex][property] =
+          value;
 
         // If the input field corresponds to the correct answer, reset the correct answer index
         if (
-          optionIndex ===
-          newFormData.qna.questions[currentQuestion].correctOption
+          optionIndex === newFormData.questions[currentQuestion].correctOption
         ) {
-          newFormData.qna.questions[currentQuestion].correctOption = null;
+          newFormData.questions[currentQuestion].correctOption = null;
         }
 
         return newFormData;
@@ -231,7 +215,7 @@ const QnAModal = ({
 
   const handleSelectCorrectAnswer = (optionIndex) => {
     setFormData((prevData) => {
-      const { questions, currentQuestion } = prevData.qna;
+      const { questions, currentQuestion } = prevData;
 
       // Check if the currentQuestion index is valid
       if (
@@ -242,7 +226,7 @@ const QnAModal = ({
       ) {
         const newFormData = { ...prevData };
 
-        newFormData.qna.questions[currentQuestion].correctOption = optionIndex;
+        newFormData.questions[currentQuestion].correctOption = optionIndex;
         return newFormData;
       } else {
         // Handle the case where the currentQuestion index is undefined or out of range
@@ -252,31 +236,31 @@ const QnAModal = ({
     });
   };
 
-  const currentQuestionIndex = formData.qna.currentQuestion;
+  const currentQuestionIndex = formData.currentQuestion;
 
   return (
     <>
       <QuestionIndicatorsRow
         setFormData={setFormData}
         formData={formData}
-        questions={formData.qna.questions}
-        maxQuestions={formData.qna.maxQuestions}
-        currentQuestion={formData.qna.currentQuestion}
+        questions={formData.questions}
+        maxQuestions={formData.maxQuestions}
+        currentQuestion={formData.currentQuestion}
         handleToggleQuestion={handleToggleQuestion}
         handleRemoveQuestion={handleRemoveQuestion}
         handleAddQuestion={handleAddQuestion}
       />
       <QuestionInput setFormData={setFormData} formData={formData} />
       <div className={styles.ChoiceAndTimerContainer}>
-        {formData.qna.questions[formData.qna.currentQuestion]
-          .selectedQuestionType && (
+        {formData.questions[formData.currentQuestion].selectedQuestionType && (
           <ChoiceInput
-            options={formData.qna.questions[currentQuestionIndex].options}
+            currentModal={currentModal}
+            options={formData.questions[currentQuestionIndex].options}
             selectedOption={
-              formData.qna.questions[currentQuestionIndex].selectedQuestionType
+              formData.questions[currentQuestionIndex].selectedQuestionType
             }
             correctAnswerIndex={
-              formData.qna.questions[currentQuestionIndex].correctOption
+              formData.questions[currentQuestionIndex].correctOption
             }
             handleInputChange={(optionIndex, property, value) =>
               handleInputChange(optionIndex, property, value)
@@ -288,22 +272,24 @@ const QnAModal = ({
             removeOption={(optionIndex) => removeOption(optionIndex)}
           />
         )}
-        <TimerInputComponent
-          formData={formData} // or whatever is the correct path to the timer value in your formData
-          onTimerChange={handleTimerChange}
-          setFormData={setFormData}
-        />
+        {currentModal === "qna" && (
+          <TimerInputComponent
+            formData={formData} // or whatever is the correct path to the timer value in your formData
+            onTimerChange={handleTimerChange}
+            setFormData={setFormData}
+          />
+        )}
       </div>
       <div className={styles.buttonContainer}>
         <button
-          className={`${styles.cancelButton} ${styles.qnaButton}`}
+          className={`${styles.cancelButton} ${styles.quizButton}`}
           type="button"
           onClick={onCloseQna}
         >
           Cancel
         </button>
         <button
-          className={`${styles.continueButton} ${styles.qnaButton}`}
+          className={`${styles.continueButton} ${styles.quizButton}`}
           type="button"
           onClick={onSave}
         >

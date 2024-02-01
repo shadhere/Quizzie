@@ -15,27 +15,26 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
       title: "",
       selectedQuizType: null,
     },
-    qna: {
-      questions: [
-        {
-          text: "", // The text of the question
-          selectedQuestionType: null, // The selected question type (e.g., multiple-choice, true/false)
-          options: [
-            {
-              text: "", // Text for the option
-              image: "", // Image URL for the option
-            },
-          ], // An array to store possible answer options
-          correctOption: null, // The correct answer option for the question
-        },
-      ],
-      currentQuestion: 0,
-      maxQuestions: 5,
-      timer: 0,
-    },
+    questions: [
+      {
+        text: "", // The text of the question
+        selectedQuestionType: null, // The selected question type (e.g., multiple-choice, true/false)
+        options: [
+          {
+            text: "", // Text for the option
+            image: "", // Image URL for the option
+          },
+        ], // An array to store possible answer options
+        correctOption: null, // The correct answer option for the question
+      },
+    ],
+    currentQuestion: 0,
+    maxQuestions: 5,
+    timer: 0,
   });
 
   const submitQuiz = async () => {
+    console.log("before submit", formData);
     try {
       // Retrieve the token from localStorage
       const token = localStorage.getItem("token");
@@ -48,6 +47,7 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
       }
 
       const formDataJSON = JSON.stringify(formData);
+      console.log(formDataJSON);
 
       const response = await axios.post(
         "http://localhost:4000/quizzes",
@@ -60,8 +60,8 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
         }
       );
 
-      console.log(response.data._id);
-      const quizId = response.data._id;
+      console.log("this is", response.data.quiz._id);
+      const quizId = response.data.quiz._id;
       const generatedQuizLink = `http://localhost:5173/quiz/${quizId}`;
 
       openShareModal();
@@ -77,18 +77,33 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
       console.error("Error submitting quiz:", error.message);
       // Handle the error as needed
     }
+    console.log("kast submit", formData);
   };
 
   const handleInputChange = (section, name, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [section]: {
-        ...prevData[section],
-        [name]: value,
-      },
-    }));
+    setFormData((prevData) => {
+      if (section === "quiz") {
+        return {
+          ...prevData,
+          [section]: {
+            ...prevData[section],
+            [name]: value,
+          },
+        };
+      } else if (section === "questions") {
+        // Assuming name is the index of the question in the array
+        const updatedQuestions = [...prevData.questions];
+        updatedQuestions[name] = value;
 
-    console.log(`Render - ${section}.${name}:`, value);
+        return {
+          ...prevData,
+          questions: updatedQuestions,
+        };
+      }
+
+      // Handle other sections if needed
+      return prevData;
+    });
   };
 
   const handleQuizInputChange = (name, value) => {
@@ -107,10 +122,20 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
   const handleQnaChange = (newQnaData) => {
     setFormData((prevData) => ({
       ...prevData,
-      qna: {
-        ...prevData.qna,
-        ...newQnaData,
-      },
+      questions: newQnaData.questions, // Update questions array
+      currentQuestion: newQnaData.currentQuestion,
+      maxQuestions: newQnaData.maxQuestions,
+      timer: newQnaData.timer,
+    }));
+  };
+
+  const handlePollChange = (newPollData) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      questions: newPollData.questions, // Update questions array
+      currentQuestion: newPollData.currentQuestion,
+      maxQuestions: newPollData.maxQuestions,
+      timer: newPollData.timer,
     }));
   };
 
@@ -168,6 +193,7 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
 
             {currentModal === "qna" && (
               <QnAModal
+                currentModal={currentModal}
                 setFormData={setFormData}
                 formData={formData}
                 onChange={handleQnaChange}
@@ -178,9 +204,24 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
             )}
 
             {currentModal === "poll" && (
+              <QnAModal
+                currentModal={currentModal}
+                setFormData={setFormData}
+                formData={formData}
+                onChange={handleQnaChange}
+                submitQuiz={submitQuiz}
+                onCloseQna={onTheModalClose}
+              />
+            )}
+
+            {currentModal === "polkl" && (
               <PollTypeModal>
-                <h2>Create Quiz Modal</h2>
-                <p>This is the content of the modal.</p>
+                setFormData={setFormData}
+                formData={formData}
+                onChange={handlePollChange}
+                onTimerChange={handleTimerChange}
+                submitQuiz={submitQuiz}
+                onCloseQna={onTheModalClose}
               </PollTypeModal>
             )}
 

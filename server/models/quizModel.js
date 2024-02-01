@@ -22,12 +22,10 @@ const quizSchema = new mongoose.Schema(
       ref: "User",
     },
     impressions: { type: Number, default: 0 }, // Add this field
-    qna: {
-      questions: [questionSchema],
-      currentQuestion: Number,
-      maxQuestions: Number,
-      timer: Number,
-    },
+    questions: [questionSchema],
+    currentQuestion: Number,
+    maxQuestions: Number,
+    timer: Number,
   },
   { timestamps: true }
 );

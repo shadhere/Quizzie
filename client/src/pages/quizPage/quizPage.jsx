@@ -38,7 +38,7 @@ const QuizPage = () => {
   const formatPageIndex = () =>
     `${(currentQuestion + 1)
       .toString()
-      .padStart(2, "0")}/${quizData.qna.questions.length
+      .padStart(2, "0")}/${quizData.quiz.questions.length
       .toString()
       .padStart(2, "0")}`;
   const formatTimer = () =>
@@ -48,7 +48,7 @@ const QuizPage = () => {
   const handleAnswerSelection = (selectedOption) => {
     setQuizData((prevData) => {
       const updatedData = { ...prevData };
-      const currentQuestionData = updatedData.qna.questions[currentQuestion];
+      const currentQuestionData = updatedData.quiz.questions[currentQuestion];
       const selectedIndex = currentQuestionData.options.findIndex(
         (option) => option.text.trim() === selectedOption.trim()
       );
@@ -62,16 +62,6 @@ const QuizPage = () => {
 
       if (selectedIndex == correctOptionIndex) {
         setCorrectAnswers((prevCorrectAnswers) => prevCorrectAnswers + 1);
-        console.log(`Your Answer: ${selectedOption.trim()} is Correct!`);
-      } else {
-        console.log(
-          `Your Answer: ${selectedOption.trim()} is Incorrect. The correct answer is: ${currentQuestionData.options[
-            correctOptionIndex
-          ].text.trim()}`
-        );
-        console.log(
-          `Explanation: https://example.com/explanation?question=${currentQuestionData._id}&answer=${correctOptionIndex}`
-        );
       }
 
       return updatedData;
@@ -80,7 +70,7 @@ const QuizPage = () => {
 
   const handleNextQuestion = () =>
     setCurrentQuestion((prevQuestion) =>
-      prevQuestion === quizData.qna.questions.length - 1
+      prevQuestion === quizData.quiz.questions.length - 1
         ? setQuizCompleted(true)
         : prevQuestion + 1
     );
@@ -88,7 +78,7 @@ const QuizPage = () => {
   const submitQuizAttempt = async () => {
     const quizAttemptData = {
       quizId: id,
-      answers: quizData.qna.questions.map((question) => ({
+      answers: quizData.quiz.questions.map((question) => ({
         questionId: question._id,
         selectedOption:
           question.options.find((option) => option.isSelected)?.text || null,
@@ -120,10 +110,10 @@ const QuizPage = () => {
               <div className={styles.timer}>{formatTimer()}</div>
             </div>
             <h1 className={styles.questionText}>
-              {quizData.qna.questions[currentQuestion].text}
+              {quizData.quiz.questions[currentQuestion].text}
             </h1>
             <div className={styles.optionsGrid}>
-              {quizData.qna.questions[currentQuestion].options.map(
+              {quizData.quiz.questions[currentQuestion].options.map(
                 (option, index) => (
                   <div
                     key={index}
@@ -142,7 +132,7 @@ const QuizPage = () => {
                 )
               )}
             </div>
-            {currentQuestion < quizData.qna.questions.length - 1 && (
+            {currentQuestion < quizData.quiz.questions.length - 1 && (
               <button
                 className={styles.nextButton}
                 onClick={handleNextQuestion}
@@ -150,7 +140,7 @@ const QuizPage = () => {
                 Next
               </button>
             )}
-            {currentQuestion === quizData.qna.questions.length - 1 && (
+            {currentQuestion === quizData.quiz.questions.length - 1 && (
               <button
                 className={styles.submitButton}
                 onClick={handleSubmitQuiz}

@@ -2,30 +2,26 @@ import React from "react";
 import styles from "./QuestionTitleAndType.module.css";
 
 const QuestionInput = ({ setFormData, formData }) => {
-  const currentQuestion = formData.qna.questions[formData.qna.currentQuestion];
+  const currentQuestion = formData.questions[formData.currentQuestion];
 
   const handleQuestionTextChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,
-      qna: {
-        ...prevData.qna,
-        questions: prevData.qna.questions.map((q, index) =>
-          index === prevData.qna.currentQuestion
-            ? { ...q, text: e.target.value }
-            : q
-        ),
-      },
+
+      questions: prevData.questions.map((q, index) =>
+        index === prevData.currentQuestion ? { ...q, text: e.target.value } : q
+      ),
     }));
   };
 
   const handleQuestionType = (option) => {
     setFormData((prevData) => {
       const newSelectedQuestionType =
-        option === prevData.qna.selectedQuestionType ? null : option;
+        option === prevData.selectedQuestionType ? null : option;
       console.log("newSelectedQuestionType:", newSelectedQuestionType); // Add this line
 
-      const updatedQuestions = prevData.qna.questions.map((q, index) => {
-        if (index === prevData.qna.currentQuestion) {
+      const updatedQuestions = prevData.questions.map((q, index) => {
+        if (index === prevData.currentQuestion) {
           return {
             ...q,
             selectedQuestionType: newSelectedQuestionType,
@@ -36,10 +32,7 @@ const QuestionInput = ({ setFormData, formData }) => {
 
       return {
         ...prevData,
-        qna: {
-          ...prevData.qna,
-          questions: updatedQuestions,
-        },
+        questions: updatedQuestions,
       };
     });
   };
@@ -49,7 +42,7 @@ const QuestionInput = ({ setFormData, formData }) => {
       <input
         className={styles.inputQuestionTitle}
         type="text"
-        placeholder={`Poll Question ${formData.qna.currentQuestion + 1}`}
+        placeholder={`Poll Question ${formData.currentQuestion + 1}`}
         value={currentQuestion.text || ""}
         onChange={handleQuestionTextChange}
       />

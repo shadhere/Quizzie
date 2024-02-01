@@ -11,6 +11,7 @@ const ChoiceInput = ({
   handleSelectCorrectAnswer,
   addOption,
   removeOption,
+  currentModal,
 }) => {
   const getPlaceholder = () => {
     switch (selectedOption) {
@@ -34,20 +35,27 @@ const ChoiceInput = ({
   return (
     <div className={styles.answerColumnContainer}>
       {options.map((option, index) => (
-        <div key={index} className={styles.choiceItem}>
+        <div
+          key={index}
+          className={`${styles.choiceItem} ${
+            currentModal === "poll" ? styles.choiceItemPoll : ""
+          }`}
+        >
           <div
             className={`${styles.answerEditor} ${
-              correctAnswerIndex === index ? styles.correctAnswer : ""
+              correctAnswerIndex === index ? styles : ""
             }`}
           >
-            <div
-              className={styles.correctAnswerRadio}
-              onClick={() => handleSelectCorrectAnswer(index)}
-            >
-              {correctAnswerIndex === index && (
-                <div className={styles.radioDot}>&#x2022;</div>
-              )}
-            </div>
+            {currentModal === "qna" && (
+              <div
+                className={styles.correctAnswerRadio}
+                onClick={() => handleSelectCorrectAnswer(index)}
+              >
+                {correctAnswerIndex === index && (
+                  <div className={styles.radioDot}>&#x2022;</div>
+                )}
+              </div>
+            )}
             {(selectedOption === "text" ||
               selectedOption === "textAndImage") && (
               <span>
@@ -56,6 +64,8 @@ const ChoiceInput = ({
                     selectedOption === "textAndImage"
                       ? styles.answerInputEditorShort
                       : ""
+                  }  ${
+                    correctAnswerIndex === index ? styles.correctAnswer : ""
                   }`}
                   placeholder={getPlaceholder()}
                   value={option.text || option.image || ""}
@@ -69,7 +79,13 @@ const ChoiceInput = ({
               selectedOption === "textAndImage") && (
               <span>
                 <input
-                  className={styles.answerInputEditor}
+                  className={`${styles.answerInputEditor} ${
+                    selectedOption === "textAndImage"
+                      ? styles.answerInputEditorShortImage
+                      : ""
+                  }   ${
+                    correctAnswerIndex === index ? styles.correctAnswer : ""
+                  }`}
                   placeholder="Image URL"
                   value={option.image}
                   onChange={(e) =>
