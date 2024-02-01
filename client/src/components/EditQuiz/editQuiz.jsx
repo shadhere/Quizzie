@@ -7,60 +7,87 @@ import QuestionInput from "../QuestionTitleandType/QuestionTitleAndType";
 const EditQuiz = ({ initialFormData, onCloseEdit }) => {
   const [formData, setFormData] = useState(initialFormData);
 
-  console.log("formData:", formData); // Log formData for debugging
+  console.log("formData:", formData);
+
+  const handleToggleQuestion = (index) => {
+    setFormData((prevData) => {
+      const { questions, currentQuestion } = prevData.qna;
+
+      // Check if the provided index is valid
+      if (
+        typeof index !== "undefined" &&
+        questions &&
+        index >= 0 &&
+        index < questions.length
+      ) {
+        const selectedQuestion = questions[index];
+        const selectedQuestionType = selectedQuestion
+          ? selectedQuestion.correctOption
+          : null;
+
+        return {
+          ...prevData,
+          qna: {
+            ...prevData.qna,
+            currentQuestion: index,
+            selectedQuestionType,
+            options: [],
+          },
+        };
+      } else {
+        // Handle the case where the index is undefined or out of range
+        console.error("Invalid question index:", index);
+        return prevData;
+      }
+    });
+  };
+
+  const handleInputChange = (optionIndex, property, value) => {
+    setFormData((prevData) => {
+      const { questions, currentQuestion } = prevData.qna;
+
+      // Check if the currentQuestion index is valid
+      if (
+        typeof currentQuestion !== "undefined" &&
+        questions &&
+        currentQuestion >= 0 &&
+        currentQuestion < questions.length
+      ) {
+        const newFormData = { ...prevData };
+
+        newFormData.qna.questions[currentQuestion].options[optionIndex][
+          property
+        ] = value;
+
+        // If the input field corresponds to the correct answer, reset the correct answer index
+        if (
+          optionIndex ===
+          newFormData.qna.questions[currentQuestion].correctOption
+        ) {
+          newFormData.qna.questions[currentQuestion].correctOption = null;
+        }
+
+        return newFormData;
+      } else {
+        // Handle the case where the currentQuestion index is undefined or out of range
+        console.error("Invalid question index:", currentQuestion);
+        return prevData;
+      }
+    });
+  };
 
   const onSave = () => {
-    // Additional logic if needed
-
-    // Call a function to handle updating the quiz with the modified formData
-    // (You need to implement this function)
     updateQuiz(formData);
-
-    // Close the modal
     onCloseEdit();
   };
 
-  // Implement the updateQuiz function
   const updateQuiz = (formData) => {
-    // Add logic to send updated quiz data to the server or perform other actions
     console.log("Updated quiz data:", formData);
-  };
-
-  // Other functions for handling form interactions go here
-
-  const handleQuestionTextChange = (newText) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      qna: {
-        ...prevFormData.qna,
-        questions: prevFormData.qna.questions.map((question, index) =>
-          index === prevFormData.qna.currentQuestion
-            ? { ...question, questionText: newText }
-            : question
-        ),
-      },
-    }));
-  };
-
-  const handleChoiceChange = (newOptions) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      qna: {
-        ...prevFormData.qna,
-        questions: prevFormData.qna.questions.map((question, index) =>
-          index === prevFormData.qna.currentQuestion
-            ? { ...question, options: newOptions }
-            : question
-        ),
-      },
-    }));
   };
 
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
-        <h2>Edit Quiz</h2>
-
         {/* Question Indicators and Navigation */}
         {formData.qna && (
           <QuestionIndicatorsRow
@@ -70,18 +97,12 @@ const EditQuiz = ({ initialFormData, onCloseEdit }) => {
             maxQuestions={formData.qna.maxQuestions}
             currentQuestion={formData.qna.currentQuestion}
             handleToggleQuestion={(index) => handleToggleQuestion(index)}
-            handleRemoveQuestion={() => handleRemoveQuestion()}
-            handleAddQuestion={() => handleAddQuestion()}
           />
         )}
 
         {/* Question Input */}
         {formData.qna && (
-          <QuestionInput
-            setFormData={setFormData}
-            formData={formData}
-            onQuestionTextChange={handleQuestionTextChange}
-          />
+          <QuestionInput setFormData={setFormData} formData={formData} />
         )}
 
         <div className={styles.ChoiceAndTimerContainer}>
@@ -91,7 +112,7 @@ const EditQuiz = ({ initialFormData, onCloseEdit }) => {
             formData.qna.questions[formData.qna.currentQuestion]
               .selectedQuestionType && (
               <ChoiceInput
-                onChoiceChange={handleChoiceChange}
+                // onChoiceChange={handleChoiceChange}
                 options={
                   formData.qna.questions[formData.qna.currentQuestion].options
                 }

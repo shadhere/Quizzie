@@ -3,11 +3,11 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import Card from "../../components/Card/Card";
 import styles from "./Dashboard.module.css";
 import QuizCard from "../../components/QuizCard/QuizCard";
-import Modal from "../../components/Modal/Modal";
+// import Modal from "../../components/Modal/Modal";
 import axios from "axios";
 
 const Dashboard = () => {
-  const [isModal, setModal] = useState(false);
+  // const [isModal, setModal] = useState(false);
   const [dashboardStats, setDashboardStats] = useState({
     quizCount: 0,
     totalQuestions: 0,
@@ -15,18 +15,17 @@ const Dashboard = () => {
     quizzes: [],
   });
 
-  const openTheModal = () => {
-    setModal(true);
-    console.log("Modal opened");
-  };
+  // const openTheModal = () => {
+  //   setModal(true);
+  //   console.log("Modal opened");
+  // };
 
-  const closeTheModal = () => {
-    setModal(false);
-    console.log("Modal closed");
-  };
+  // const closeTheModal = () => {
+  //   setModal(false);
+  //   console.log("Modal closed");
+  // };
 
   useEffect(() => {
-    // Fetch data from the server
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -47,57 +46,84 @@ const Dashboard = () => {
 
   return (
     <>
-      <div>
-        <Sidebar onNavLinkClick={openTheModal} />
-
-        <Modal isTheModalOpen={isModal} onTheModalClose={closeTheModal} />
+      <div className={styles.layout}>
+        {/* <Sidebar onNavLinkClick={openTheModal} openTheModal={openTheModal} /> */}
+        <Sidebar />
+        {/* <Modal isTheModalOpen={isModal} onTheModalClose={closeTheModal} /> */}
 
         <div className={styles.cardContainer}>
           <Card
             title={`${dashboardStats.quizCount} `}
-            content="Quiz Created"
-            className={styles.card1}
+            heading="Quiz"
+            content="Created"
           />
           <Card
             title={`${dashboardStats.totalQuestions}`}
-            content="Questions Created"
+            heading="Questions"
+            content="Created"
           />
           <Card
             title={`${dashboardStats.totalImpressions}`}
-            content="Total impressions"
+            heading="Total"
+            content="Impressions"
           />
         </div>
 
-        <div>
+        <div className={styles.heading}>Trending Quizs</div>
+        <div className={styles.quizsContainer}>
           <div className={styles.quizcardContainer}>
             {dashboardStats.quizzes.slice(0, 4).map((quiz) => (
               <QuizCard
                 key={quiz._id}
                 title={quiz.title}
                 views={quiz.impressions}
+                createdAt={new Date(quiz.createdAt).toLocaleDateString(
+                  "en-UK",
+                  {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  }
+                )}
               />
             ))}
           </div>
-        </div>
 
-        <div className={styles.quizcardContainer}>
-          {dashboardStats.quizzes.slice(4, 8).map((quiz) => (
-            <QuizCard
-              key={quiz._id}
-              title={quiz.title}
-              views={quiz.impressions}
-            />
-          ))}
-        </div>
+          <div className={styles.quizcardContainer}>
+            {dashboardStats.quizzes.slice(4, 8).map((quiz) => (
+              <QuizCard
+                key={quiz._id}
+                title={quiz.title}
+                views={quiz.impressions}
+                createdAt={new Date(quiz.createdAt).toLocaleDateString(
+                  "en-UK",
+                  {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  }
+                )}
+              />
+            ))}
+          </div>
 
-        <div className={styles.quizcardContainer}>
-          {dashboardStats.quizzes.slice(8, 12).map((quiz) => (
-            <QuizCard
-              key={quiz._id}
-              title={quiz.title}
-              views={quiz.impressions}
-            />
-          ))}
+          <div className={styles.quizcardContainer}>
+            {dashboardStats.quizzes.slice(8, 12).map((quiz) => (
+              <QuizCard
+                key={quiz._id}
+                title={quiz.title}
+                views={quiz.impressions}
+                createdAt={new Date(quiz.createdAt).toLocaleDateString(
+                  "en-UK",
+                  {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  }
+                )}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </>

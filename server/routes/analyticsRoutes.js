@@ -11,7 +11,7 @@ router.get("/analytics", authenticateUser, async (req, res) => {
 
     // Get quizzes created by the user
     const quizzes = await Quiz.find({ createdBy: userId }).select(
-      "_id title createdOn impressions"
+      "_id title createdAt impressions"
     );
 
     // Map the quizzes to include serial number and actions
@@ -19,7 +19,7 @@ router.get("/analytics", authenticateUser, async (req, res) => {
       srNo: index + 1,
       quizId: quiz._id,
       title: quiz.title,
-      createdOn: quiz.createdOn,
+      createdAt: quiz.createdAt,
       impressions: quiz.impressions,
       actions: {
         edit: `/edit/${quiz._id}`,

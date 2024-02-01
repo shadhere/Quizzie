@@ -1,23 +1,42 @@
-/* QuizTable.module.css */
 .tableContainer {
   width: 100%;
+  margin-top: -200px;
 }
 
 .quizTable {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  border: none;
 }
 
-.quizTable th,
-.quizTable td {
-  border: 1px solid #ddd;
+h1 {
+  font-size: 60px;
+  color: #5076ff;
+  text-align: center;
+  font-family: "Poppins";
+}
+table th {
+  color: white;
+  font-family: "Poppins";
   padding: 10px;
-  text-align: left;
+  background-color: #5076ff;
 }
 
-.quizTable th {
-  background-color: #f2f2f2;
+table th:first-child,
+td:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+table td:last-child,
+th:last-child {
+  border-radius: 0 10px 10px 0;
+}
+
+.quizTable td {
+  font-family: "Poppins";
+  font-weight: 600;
+  padding: 10px 30px 10px 30px;
 }
 
 .iconButton {
@@ -29,4 +48,8 @@
   color: blue;
   text-decoration: underline;
   cursor: pointer;
+}
+
+table tr:nth-child(even) {
+  background-color: #b3c4ff;
 }

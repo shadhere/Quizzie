@@ -10,22 +10,24 @@
   background: #fff;
   margin-right: 10px;
   margin-bottom: 10px;
-  padding: 20px;
+  padding: 10px 20px 10px 20px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
 }
 
 .cardTitle {
   color: #474444;
-  margin-right: 80px;
-  font-family: Poppins;
+  width: 200px;
+  overflow: hidden;
+  overflow-y: hidden;
+  font-family: "Poppins";
   font-size: 23px;
   font-style: normal;
+  height: 40px;
   font-weight: 600;
-  line-height: normal;
-  overflow: hidden;
-  margin-top: 0px;
+  margin: 0;
 }
 
 .views {
@@ -40,4 +42,26 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+}
+
+.createdAt {
+  color: #ff5d01;
+  width: 200px;
+  overflow: hidden;
+  font-family: "Poppins";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  margin: 0;
+}
+
+.rowContainer {
+  display: flex;
+  justify-content: space-between; /* Align items in a row with space between them */
+}
+
+.columnContainer {
+  display: flex;
+  flex-direction: column; /* Stack the items in a column */
+  align-items: center; /* Center items horizontally in the column */
 }

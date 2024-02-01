@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./QuestionToggleBar.module.css";
+import AddOption from "../../assets/AddOption.svg";
 
 const QuestionIndicatorsRow = ({
   questions,
@@ -32,7 +33,7 @@ const QuestionIndicatorsRow = ({
       ))}
       {questions.length < maxQuestions && (
         <div className={styles.addQuestionButton} onClick={handleAddQuestion}>
-          +
+          <img src={AddOption} alt="" />
         </div>
       )}
       {questions.length === maxQuestions && (
@@ -43,6 +44,7 @@ const QuestionIndicatorsRow = ({
           X
         </div>
       )}
+      <div className={styles.questionIndicatorText}>Max 5 questions</div>
     </div>
   );
 };

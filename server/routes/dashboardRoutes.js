@@ -28,7 +28,7 @@ router.get("/dashboard", authenticateUser, async (req, res) => {
 
     // Get information about each quiz created by the user
     const quizzes = await Quiz.find({ createdBy: userId }).select(
-      "title impressions qna.questions"
+      "title impressions qna.questions createdAt"
     );
 
     res.status(200).json({

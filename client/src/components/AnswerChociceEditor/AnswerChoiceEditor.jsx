@@ -1,7 +1,7 @@
 // ChoiceInput.jsx
 import React from "react";
 import styles from "./AnswerChoiceEditor.module.css";
-import { FaTrash } from "react-icons/fa";
+import deleteOption from "../../assets/deleteOption.svg";
 
 const ChoiceInput = ({
   options,
@@ -22,6 +22,14 @@ const ChoiceInput = ({
         return "text";
     }
   };
+
+  if (selectedOption) {
+    if (options.length === 0) {
+      addOption();
+    }
+  }
+
+  const isAddOptionButtonVisible = options.length < 4;
 
   return (
     <div className={styles.answerColumnContainer}>
@@ -70,19 +78,22 @@ const ChoiceInput = ({
                 />
               </span>
             )}
-
-            <button
-              className={styles.removeChoiceBtn}
-              onClick={() => removeOption(index)}
-            >
-              <FaTrash />
-            </button>
+            {index >= 2 && (
+              <button
+                className={styles.removeChoiceBtn}
+                onClick={() => removeOption(index)}
+              >
+                <img src={deleteOption} alt="" />
+              </button>
+            )}
           </div>
         </div>
       ))}
-      <button className={styles.addOptionBtn} onClick={addOption}>
-        Add Option
-      </button>
+      {isAddOptionButtonVisible && (
+        <button className={styles.addOptionBtn} onClick={addOption}>
+          Add Option
+        </button>
+      )}
     </div>
   );
 };

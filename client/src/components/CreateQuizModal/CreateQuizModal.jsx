@@ -1,6 +1,5 @@
 import React from "react";
-import styles from "../Modal/Modal.module.css";
-import { useEffect } from "react";
+import styles from "./CreateQuizModal.module.css";
 
 const CreateQuizModal = ({
   formData,
@@ -31,7 +30,7 @@ const CreateQuizModal = ({
           id="title"
           name="title"
           placeholder="Quiz Name"
-          className={styles.inputField}
+          className={styles.inputQuizTitle}
           value={formData.title}
           onChange={(e) => handleInputChange("title", e.target.value)}
         />

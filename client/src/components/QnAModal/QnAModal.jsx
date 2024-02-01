@@ -122,6 +122,7 @@ const QnAModal = ({
       },
     }));
   };
+
   const addOption = (questionIndex) => {
     setFormData((prevData) => {
       const { questions, currentQuestion } = prevData.qna;
@@ -261,12 +262,9 @@ const QnAModal = ({
         questions={formData.qna.questions}
         maxQuestions={formData.qna.maxQuestions}
         currentQuestion={formData.qna.currentQuestion}
-        // questions={formData.qna.questions}
-        // currentQuestion={formData.qna.currentQuestion}
         handleToggleQuestion={handleToggleQuestion}
         handleRemoveQuestion={handleRemoveQuestion}
         handleAddQuestion={handleAddQuestion}
-        // maxQuestions={formData.qna.maxQuestions}
       />
       <QuestionInput setFormData={setFormData} formData={formData} />
       <div className={styles.ChoiceAndTimerContainer}>

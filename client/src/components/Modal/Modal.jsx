@@ -159,7 +159,7 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
                 // onChange={(newData) => handleFormChange("quiz", newData)}
                 onContinueQuizQna={openQnaModal}
                 onContinuePollQna={openPollModal}
-                onClose={onTheModalClose} // Make sure it closes the correct modal
+                onClose={onTheModalClose}
               >
                 <h2>Create Quiz Modal</h2>
                 <p>This is the content of the modal.</p>
@@ -170,15 +170,10 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
               <QnAModal
                 setFormData={setFormData}
                 formData={formData}
-                // questions={formData.qna.questions}
-                // maxQuestions={formData.qna.maxQuestions}
-                // currentQuestion={formData.qna.currentQuestion}
-                // selectedOptionType={formData.qna.selectedOptionType}
-                // options={formData.qna.options}
-                // timer={formData.qna.timer}
                 onChange={handleQnaChange}
                 onTimerChange={handleTimerChange}
                 submitQuiz={submitQuiz}
+                onCloseQna={onTheModalClose}
               />
             )}
 

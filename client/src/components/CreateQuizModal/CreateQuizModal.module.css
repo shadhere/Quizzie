@@ -1,0 +1,139 @@
+/* CreateQuizModal.css */
+
+.modaloverlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.inputQuizTitle {
+  width: 673px;
+  height: 81px;
+  border: 0;
+  padding-left: 20px;
+  border-radius: 10px;
+  background: #fff;
+  color: #9f9f9f;
+  font-size: 20px;
+  font-family: "Poppins";
+  font-weight: 500;
+  word-wrap: break-word;
+  margin-bottom: 40px;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+}
+
+.modalcontent {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  border-radius: 10px;
+  background: #fff;
+  width: auto;
+  height: auto;
+  flex-shrink: 0;
+  padding: 40px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.quizTypeText {
+  text-align: center;
+  color: #9f9f9f;
+  font-size: 25px;
+  font-family: "Poppins";
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+.inputField {
+  width: 673px;
+  height: 81px;
+  flex-shrink: 0;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+  border: 1px solid #ddd;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 110px;
+}
+
+.checkboxOptionQuiz {
+  display: flex;
+  width: 171px;
+  height: 50px;
+  border-radius: 10px;
+  border: 0;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+  font-size: 20px;
+  font-family: "Poppins";
+  font-weight: 500;
+  word-wrap: break-word;
+  color: #9f9f9f;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.checkboxOptionQuiz.selected {
+  background: #60b84b;
+  color: #fff;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 60px;
+  margin-right: 40px;
+  margin-left: 40px;
+}
+
+.continueButton {
+  border-radius: 10px;
+  background: #60b84b;
+  padding: 0;
+  width: 279px;
+  height: 48.144px;
+  flex-shrink: 0;
+  cursor: pointer;
+  color: #fff;
+  font-family: Poppins;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.cancelButton {
+  width: 279px;
+  height: 46.144px;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  border: none;
+  color: #474444;
+  font-family: Poppins;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 600;
+}

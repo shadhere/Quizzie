@@ -10,6 +10,7 @@ import QuizTable from "./components/QuizTable/QuizTable";
 function App() {
   const isLoggedIn = !!localStorage.getItem("token");
 
+  console.log("Is Logged In:", isLoggedIn);
   return (
     <>
       {" "}
@@ -17,11 +18,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<RegistrationForm />} />
-            {isLoggedIn ? (
-              <Route path="/dashboard" element={<Dashboard />} />
-            ) : (
-              (path = "/login")
-            )}{" "}
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/analytics" element={<QuizTable />} />
             <Route path="/quiz/:id" element={<QuizPage />} />
           </Routes>
