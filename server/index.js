@@ -24,16 +24,13 @@ app.post("/register", async (req, res) => {
   try {
     const { name, email, password, confirmPassword } = req.body;
 
-    // Check if the user already exists
     const existingUser = await User.findOne({ $or: [{ name }, { email }] });
     if (existingUser) {
       return res.status(400).json({ error: "User already exists" });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new user
     const newUser = new User({
       name,
       email,
@@ -41,7 +38,6 @@ app.post("/register", async (req, res) => {
       confirmPassword: hashedPassword,
     });
 
-    // Save the user to the database
     await newUser.save();
 
     res.status(200).json({ message: "Registration successful" });
@@ -51,25 +47,21 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// Login endpoint
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find the user by email
     const user = await User.findOne({ email });
     console.log("Logged in");
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    // Compare the provided password with the hashed password in the database
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    // Create and send a JWT token upon successful login
     const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
