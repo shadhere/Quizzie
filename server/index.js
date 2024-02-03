@@ -21,6 +21,9 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+// Example middleware to handle OPTIONS requests
+app.options("*", cors(corsOptions));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
