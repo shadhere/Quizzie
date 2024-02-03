@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import RegistrationForm from "./pages/Auth/RegistrationForm";
-import styles from "./App.css";
+import styles from "./App.module.css";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import QuizPage from "./pages/quizPage/quizPage";
 import QuizTable from "./components/QuizTable/QuizTable";

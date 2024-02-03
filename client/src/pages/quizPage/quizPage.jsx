@@ -20,7 +20,7 @@ const QuizPage = () => {
     const fetchQuizAndStartTimer = async () => {
       try {
         const { data } = await axios.get(
-          `https://quizzie-psi.vercel.app/quizzes/${id}`
+          `https://quizzie-ten.vercel.app/quizzes/${id}`
         );
         setQuizData(data);
         console.log("Timer from DB:", data.quiz.timer);
@@ -111,7 +111,7 @@ const QuizPage = () => {
 
     try {
       await axios.post(
-        "https://quizzie-psi.vercel.app/attempts",
+        "https://quizzie-ten.vercel.app/attempts",
         quizAttemptData
       );
       setQuizCompleted(true);

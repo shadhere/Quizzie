@@ -18,7 +18,7 @@ const Dashboard = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "https://quizzie-psi.vercel.app/dashboard",
+          "https://quizzie-ten.vercel.app/dashboard",
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -46,7 +46,7 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
       console.log(formDataJSON);
 
       const response = await axios.post(
-        "https://quizzie-psi.vercel.app/quizzes",
+        "https://quizzie-ten.vercel.app/quizzes",
         formDataJSON,
         {
           headers: {

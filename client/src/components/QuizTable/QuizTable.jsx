@@ -22,7 +22,7 @@ const QuizTable = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .get("https://quizzie-psi.vercel.app/analytics", {
+      .get("https://quizzie-ten.vercel.app/analytics", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -42,7 +42,7 @@ const QuizTable = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .get(`https://quizzie-psi.vercel.app/quizzes/${quizId}`, {
+      .get(`https://quizzie-ten.vercel.app/quizzes/${quizId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -76,7 +76,7 @@ const QuizTable = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `https://quizzie-psi.vercel.app/quizzes/${updatedFormData.quizId}`,
+        `https://quizzie-ten.vercel.app/quizzes/${updatedFormData.quizId}`,
         updatedFormData,
         {
           headers: {
@@ -122,7 +122,7 @@ const QuizTable = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.delete(
-        `https://quizzie-psi.vercel.app/quizzes/${quizToDelete}`,
+        `https://quizzie-ten.vercel.app/quizzes/${quizToDelete}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
