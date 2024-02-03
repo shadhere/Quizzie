@@ -14,7 +14,11 @@ const analyticsRoutes = require("./routes/analyticsRoutes");
 const attemptRoute = require("./routes/attemptRoute");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://quizzie-2s1d-824ny9v13-shadhere.vercel.app/",
+  })
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
