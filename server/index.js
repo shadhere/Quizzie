@@ -14,15 +14,7 @@ const analyticsRoutes = require("./routes/analyticsRoutes");
 const attemptRoute = require("./routes/attemptRoute");
 
 const app = express();
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://quizzie-4fc5.vercel.app"); // Update to match the domain you will make the request from
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
-
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
