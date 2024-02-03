@@ -6,13 +6,12 @@ const AttemptSchema = new mongoose.Schema({
     {
       questionId: String,
       selectedOption: {
-        text: String, // Store the selected option text
-        index: Number, // Store the selected option index
+        text: String,
+        index: Number,
       },
     },
   ],
   timestamp: { type: Date, default: Date.now },
-  // Add other relevant data
 });
 
 const AttemptModel = mongoose.model("Attempt", AttemptSchema);

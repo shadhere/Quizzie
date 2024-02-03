@@ -1,4 +1,3 @@
-// ChoiceInput.jsx
 import React from "react";
 import styles from "./AnswerChoiceEditor.module.css";
 import deleteOption from "../../assets/deleteOption.svg";

@@ -21,7 +21,7 @@ const quizSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    impressions: { type: Number, default: 0 }, // Add this field
+    impressions: { type: Number, default: 0 },
     questions: [questionSchema],
     currentQuestion: Number,
     maxQuestions: Number,

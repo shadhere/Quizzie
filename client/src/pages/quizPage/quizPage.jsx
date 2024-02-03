@@ -19,7 +19,9 @@ const QuizPage = () => {
     let interval;
     const fetchQuizAndStartTimer = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:4000/quizzes/${id}`);
+        const { data } = await axios.get(
+          `https://quizzie-psi.vercel.app/quizzes/${id}`
+        );
         setQuizData(data);
         console.log("Timer from DB:", data.quiz.timer);
       } catch (error) {
@@ -41,11 +43,9 @@ const QuizPage = () => {
 
   const renderer = ({ minutes, seconds, completed }) => {
     if (completed) {
-      // Automatically move to the next question when the timer runs out
       handleNextQuestion();
       return null;
     } else {
-      // Display the countdown timer
       return (
         <span>
           {minutes}:{seconds}
@@ -61,12 +61,10 @@ const QuizPage = () => {
 
       setTotalAnswers((prevTotalAnswers) => prevTotalAnswers + 1);
 
-      // Find the index of the selected option
       const selectedIndex = currentQuestionData.options.findIndex(
         (option) => option.text.trim() === selectedOption.trim()
       );
 
-      // Update isSelected for each option
       const updatedOptions = currentQuestionData.options.map(
         (option, index) => ({
           ...option,
@@ -75,22 +73,18 @@ const QuizPage = () => {
       );
       currentQuestionData.options = updatedOptions;
 
-      // Determine the correct option index dynamically
       const correctOptionIndex = currentQuestionData.correctOption;
 
       console.log("Selected Option (Text):", selectedOption);
       console.log("Selected Index:", selectedIndex);
       console.log("Correct Option Index:", correctOptionIndex);
 
-      // Check if the selected option is correct
       if (selectedIndex == correctOptionIndex) {
         setCorrectAnswers((prevCorrectAnswers) => prevCorrectAnswers + 1);
       }
 
-      // Set both selected option text and index in the state
-      currentQuestionData.selectedOptionText = selectedOption; // Ensure selected option text is set
-      currentQuestionData.selectedOptionIndex = selectedIndex; // Ensure selected option index is set
-
+      currentQuestionData.selectedOptionText = selectedOption;
+      currentQuestionData.selectedOptionIndex = selectedIndex;
       return updatedData;
     });
   };
@@ -116,7 +110,10 @@ const QuizPage = () => {
     };
 
     try {
-      await axios.post("http://localhost:4000/attempts", quizAttemptData);
+      await axios.post(
+        "https://quizzie-psi.vercel.app/attempts",
+        quizAttemptData
+      );
       setQuizCompleted(true);
     } catch (error) {
       console.error("Error submitting quiz attempt:", error);
@@ -134,7 +131,6 @@ const QuizPage = () => {
         const updatedData = { ...prevData };
         const currentQuestionData = updatedData.quiz.questions[currentQuestion];
 
-        // Increment the current question index
         if (updatedData.timer > 0) {
           setTimer(updatedData.timer);
         }
@@ -142,17 +138,13 @@ const QuizPage = () => {
 
         setCountdownKey(Date.now());
 
-        // Update the timer directly in the quizData
-        // Check if it's the last question
         if (nextQuestionIndex === updatedData.quiz.questions.length) {
           setQuizCompleted(true);
         }
 
-        // Return the updated data
         return updatedData;
       });
 
-      // Move to the next question using the updated state
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
     }
   };
@@ -168,7 +160,7 @@ const QuizPage = () => {
               <div className={styles.pageIndex}>{formatPageIndex()}</div>
               <div className={styles.timer}>
                 <Countdown
-                  key={countdownKey} // Add key prop
+                  key={countdownKey}
                   date={Date.now() + quizData.quiz.timer * 1000}
                   renderer={renderer}
                 />

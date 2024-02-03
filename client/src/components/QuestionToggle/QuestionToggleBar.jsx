@@ -26,7 +26,7 @@ const QuestionIndicatorsRow = ({
               className={styles.removeQuestionButton}
               onClick={() => handleRemoveQuestion(index)}
             >
-              &#215; {/* Unicode for "×" */}
+              &#215; {}
             </div>
           )}
         </div>

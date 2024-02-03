@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styles from "./Modal.module.css";
 import CreateQuizModal from "../CreateQuizModal/CreateQuizModal";
 import QnAModal from "../QnAModal/QnAModal";
-import PollTypeModal from "../PollTypeModal/PollTypeModal";
 import axios from "axios";
 import ShareQuizModal from "../ShareQuiz/shareQuiz";
 
@@ -17,15 +16,15 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
     },
     questions: [
       {
-        text: "", // The text of the question
-        selectedQuestionType: null, // The selected question type (e.g., multiple-choice, true/false)
+        text: "",
+        selectedQuestionType: null,
         options: [
           {
-            text: "", // Text for the option
-            image: "", // Image URL for the option
+            text: "",
+            image: "",
           },
-        ], // An array to store possible answer options
-        correctOption: null, // The correct answer option for the question
+        ],
+        correctOption: null,
       },
     ],
     currentQuestion: 0,
@@ -36,13 +35,10 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
   const submitQuiz = async () => {
     console.log("before submit", formData);
     try {
-      // Retrieve the token from localStorage
       const token = localStorage.getItem("token");
 
-      // Check if the token exists
       if (!token) {
         console.error("User not authenticated");
-        // Handle the case where the user is not authenticated
         return;
       }
 
@@ -50,7 +46,7 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
       console.log(formDataJSON);
 
       const response = await axios.post(
-        "http://localhost:4000/quizzes",
+        "https://quizzie-psi.vercel.app/quizzes",
         formDataJSON,
         {
           headers: {
@@ -65,17 +61,13 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
       const generatedQuizLink = `http://localhost:5173/quiz/${quizId}`;
 
       openShareModal();
-      // Optionally, you can reset the form data or close the modal here
 
-      // Pass the link as a prop to the child component
       setGeneratedLink(generatedQuizLink);
       console.log(generatedQuizLink);
 
       console.log("Quiz submitted successfully!", response.data);
-      // Optionally, you can reset the form data or close the modal here
     } catch (error) {
       console.error("Error submitting quiz:", error.message);
-      // Handle the error as needed
     }
     console.log("kast submit", formData);
   };
@@ -91,7 +83,6 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
           },
         };
       } else if (section === "questions") {
-        // Assuming name is the index of the question in the array
         const updatedQuestions = [...prevData.questions];
         updatedQuestions[name] = value;
 
@@ -101,7 +92,6 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
         };
       }
 
-      // Handle other sections if needed
       return prevData;
     });
   };
@@ -110,19 +100,10 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
     handleInputChange("quiz", name, value);
   };
 
-  // const handleFormChange = (section, newFormData) => {
-  //   console.log(`Updating ${section} with data:`, newFormData);
-
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [section]: newFormData,
-  //   }));
-  // };
-
   const handleQnaChange = (newQnaData) => {
     setFormData((prevData) => ({
       ...prevData,
-      questions: newQnaData.questions, // Update questions array
+      questions: newQnaData.questions,
       currentQuestion: newQnaData.currentQuestion,
       maxQuestions: newQnaData.maxQuestions,
       timer: newQnaData.timer,
@@ -132,7 +113,7 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
   const handlePollChange = (newPollData) => {
     setFormData((prevData) => ({
       ...prevData,
-      questions: newPollData.questions, // Update questions array
+      questions: newPollData.questions,
       currentQuestion: newPollData.currentQuestion,
       maxQuestions: newPollData.maxQuestions,
       timer: newPollData.timer,
@@ -142,7 +123,7 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
   const handleTimerChange = (newTimerValue) => {
     setFormData((prevData) => ({
       ...prevData,
-      timer: newTimerValue, // Update the top-level timer property
+      timer: newTimerValue,
     }));
   };
 
@@ -167,18 +148,13 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
       {isTheModalOpen && (
         <div className={styles.modaloverlay}>
           <div className={styles.modalcontent}>
-            <span className={styles.closebutton} /*onClick={onClose}*/>
-              &times;
-            </span>
+            <span className={styles.closebutton}>&times;</span>
 
             {currentModal === "createQuiz" && (
               <CreateQuizModal
                 setFormData={setFormData}
                 formData={formData}
                 handleInputChange={handleQuizInputChange}
-                // title={formData.quiz.title}
-                // selectedQuizType={formData.quiz.selectedQuizType}
-                // onChange={(newData) => handleFormChange("quiz", newData)}
                 onContinueQuizQna={openQnaModal}
                 onContinuePollQna={openPollModal}
                 onClose={onTheModalClose}
@@ -209,17 +185,6 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
                 submitQuiz={submitQuiz}
                 onCloseQna={onTheModalClose}
               />
-            )}
-
-            {currentModal === "polkl" && (
-              <PollTypeModal>
-                setFormData={setFormData}
-                formData={formData}
-                onChange={handlePollChange}
-                onTimerChange={handleTimerChange}
-                submitQuiz={submitQuiz}
-                onCloseQna={onTheModalClose}
-              </PollTypeModal>
             )}
 
             {currentModal === "shareQuiz" && (

@@ -1,4 +1,3 @@
-// middleware/authenticateUser.js
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
@@ -20,7 +19,6 @@ const authenticateUser = async (req, res, next) => {
         .json({ success: false, message: "Unauthorized: No token provided" });
     }
 
-    // Verify the token
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     req.user = await User.findById(decodedToken.userId);
 

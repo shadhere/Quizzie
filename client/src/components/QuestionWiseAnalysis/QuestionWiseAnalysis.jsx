@@ -16,7 +16,7 @@ const QuestionWiseAnalysis = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:4000/questionwiseanalysis/${quizId}`,
+          `https://quizzie-psi.vercel.app/questionwiseanalysis/${quizId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

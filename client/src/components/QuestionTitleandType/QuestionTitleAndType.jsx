@@ -18,8 +18,7 @@ const QuestionInput = ({ setFormData, formData }) => {
     setFormData((prevData) => {
       const newSelectedQuestionType =
         option === prevData.selectedQuestionType ? null : option;
-      console.log("newSelectedQuestionType:", newSelectedQuestionType); // Add this line
-
+      console.log("newSelectedQuestionType:", newSelectedQuestionType);
       const updatedQuestions = prevData.questions.map((q, index) => {
         if (index === prevData.currentQuestion) {
           return {

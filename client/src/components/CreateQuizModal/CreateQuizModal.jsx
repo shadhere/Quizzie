@@ -14,7 +14,6 @@ const CreateQuizModal = ({
   ];
 
   const handleContinue = () => {
-    // Pass both the title and selected option to the onContinue callback
     if (formData.quiz.selectedQuizType === "qna") {
       onContinueQuizQna(formData.quiz.title, formData.quiz.selectedQuizType);
     } else if (formData.quiz.selectedQuizType === "poll") {

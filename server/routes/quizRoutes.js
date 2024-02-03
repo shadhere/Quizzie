@@ -3,7 +3,6 @@ const router = express.Router();
 const Quiz = require("../models/quizModel");
 const authenticateUser = require("../middleware/authenticateUser");
 
-// Create a new quiz
 router.post("/quizzes", authenticateUser, async (req, res) => {
   try {
     const { quiz, questions, timer, currentQuestion } = req.body;
@@ -12,19 +11,17 @@ router.post("/quizzes", authenticateUser, async (req, res) => {
     console.log("Timer", timer);
     console.log("body", req.body);
 
-    // Ensure required fields are present
     if (!quiz || !quiz.title || !quiz.selectedQuizType) {
       return res
         .status(400)
         .json({ success: false, message: "Invalid request data" });
     }
 
-    // Create a new Quiz instance with user association
     const newQuiz = new Quiz({
       title: quiz.title,
       selectedQuizType: quiz.selectedQuizType,
-      createdBy: req.user._id, // Associating the user with the quiz
-      questions: questions, // Use the questions array from the request
+      createdBy: req.user._id,
+      questions: questions,
       currentQuestion: currentQuestion,
       maxQuestions: quiz.maxQuestions,
       timer: timer,
@@ -36,7 +33,6 @@ router.post("/quizzes", authenticateUser, async (req, res) => {
   } catch (error) {
     console.error("Quiz creation failed:", error.message);
 
-    // Check for specific errors (e.g., validation errors)
     if (error.name === "ValidationError") {
       return res.status(400).json({
         success: false,
@@ -49,7 +45,6 @@ router.post("/quizzes", authenticateUser, async (req, res) => {
   }
 });
 
-// Get a specific quiz by ID
 router.get("/quizzes/:id", async (req, res) => {
   try {
     const quizId = req.params.id;

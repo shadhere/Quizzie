@@ -4,7 +4,7 @@ import styles from "./Sidebar.module.css";
 import Modal from "../Modal/Modal";
 
 const Sidebar = () => {
-  const navigate = useNavigate(); // Move useNavigate to the component level
+  const navigate = useNavigate();
   const handleLogout = () => {
     try {
       localStorage.removeItem("token");
@@ -45,11 +45,7 @@ const Sidebar = () => {
             Analytics
           </NavLink>
 
-          <NavLink
-            // to="/create-quiz"
-            onClick={openTheModal}
-            className={styles.sidebarLink}
-          >
+          <NavLink onClick={openTheModal} className={styles.sidebarLink}>
             Create Quiz
           </NavLink>
         </div>

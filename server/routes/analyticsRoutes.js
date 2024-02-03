@@ -1,4 +1,3 @@
-// analyticsRoute.js
 const express = require("express");
 const Quiz = require("../models/quizModel");
 const authenticateUser = require("../middleware/authenticateUser");
@@ -9,12 +8,10 @@ router.get("/analytics", authenticateUser, async (req, res) => {
   try {
     const userId = req.user._id;
 
-    // Get quizzes created by the user
     const quizzes = await Quiz.find({ createdBy: userId }).select(
       "_id title createdAt impressions"
     );
 
-    // Map the quizzes to include serial number and actions
     const quizzesWithActions = quizzes.map((quiz, index) => ({
       srNo: index + 1,
       quizId: quiz._id,
@@ -37,18 +34,15 @@ router.get("/analytics", authenticateUser, async (req, res) => {
   }
 });
 
-// Delete quiz route
 router.delete("/quizzes/:id", authenticateUser, async (req, res) => {
   try {
     const quizId = req.params.id;
 
-    // Check if the quiz exists
     const quiz = await Quiz.findById(quizId);
     if (!quiz) {
       return res.status(404).json({ error: "Quiz not found." });
     }
 
-    // Delete the quiz
     await quiz.deleteOne();
 
     res.status(200).json({ message: "Quiz deleted successfully." });
@@ -58,7 +52,6 @@ router.delete("/quizzes/:id", authenticateUser, async (req, res) => {
   }
 });
 
-// Example: Update endpoint for updating questions
 router.put("/quizzes/:quizId", authenticateUser, async (req, res) => {
   try {
     const { quizId } = req.params;
@@ -72,16 +65,13 @@ router.put("/quizzes/:quizId", authenticateUser, async (req, res) => {
     existingQuiz.title = title;
     existingQuiz.impressions = impressions;
 
-    // Assuming questions is an array of objects with text and options
     if (questions && Array.isArray(questions)) {
-      // Update existing questions or add new ones
       existingQuiz.qna.questions = questions.map((newQuestion, index) => {
         const existingQuestion = existingQuiz.qna.questions[index] || {};
         return {
           ...existingQuestion,
           text: newQuestion.text || "",
           options: newQuestion.options || [],
-          // Add other fields as needed
         };
       });
     }

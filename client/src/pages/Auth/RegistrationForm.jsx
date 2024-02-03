@@ -74,7 +74,7 @@ const RegistrationForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/register",
+        "https://quizzie-psi.vercel.app/register",
         formData
       );
       console.log("Registration successful:", response.data);
@@ -85,10 +85,13 @@ const RegistrationForm = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:4000/login", {
-        email: formData.email,
-        password: formData.password,
-      });
+      const response = await axios.post(
+        "https://quizzie-psi.vercel.app/login",
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
 
       const accessToken = response.data.accessToken;
 

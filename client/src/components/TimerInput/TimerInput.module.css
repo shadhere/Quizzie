@@ -1,5 +1,3 @@
-/* TimerInputComponent.module.css */
-
 .timerSelectionContainer {
   display: flex;
   flex-direction: column;
@@ -19,7 +17,6 @@
 }
 
 .timerButton.selected {
-  /* Style for the selected timer button */
   background: #d60000;
   color: #fff;
 }

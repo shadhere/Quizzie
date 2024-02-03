@@ -1,5 +1,3 @@
-/* quizCard.module.css */
-
 .quizCard {
   display: flex;
   width: 181px;
@@ -57,11 +55,11 @@
 
 .rowContainer {
   display: flex;
-  justify-content: space-between; /* Align items in a row with space between them */
+  justify-content: space-between;
 }
 
 .columnContainer {
   display: flex;
-  flex-direction: column; /* Stack the items in a column */
-  align-items: center; /* Center items horizontally in the column */
+  flex-direction: column;
+  align-items: center;
 }

@@ -3,11 +3,9 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import Card from "../../components/Card/Card";
 import styles from "./Dashboard.module.css";
 import QuizCard from "../../components/QuizCard/QuizCard";
-// import Modal from "../../components/Modal/Modal";
 import axios from "axios";
 
 const Dashboard = () => {
-  // const [isModal, setModal] = useState(false);
   const [dashboardStats, setDashboardStats] = useState({
     quizCount: 0,
     totalQuestions: 0,
@@ -15,25 +13,18 @@ const Dashboard = () => {
     quizzes: [],
   });
 
-  // const openTheModal = () => {
-  //   setModal(true);
-  //   console.log("Modal opened");
-  // };
-
-  // const closeTheModal = () => {
-  //   setModal(false);
-  //   console.log("Modal closed");
-  // };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:4000/dashboard", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          "https://quizzie-psi.vercel.app/dashboard",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = response.data;
         setDashboardStats(data || {});
       } catch (error) {
@@ -47,9 +38,7 @@ const Dashboard = () => {
   return (
     <>
       <div className={styles.layout}>
-        {/* <Sidebar onNavLinkClick={openTheModal} openTheModal={openTheModal} /> */}
         <Sidebar />
-        {/* <Modal isTheModalOpen={isModal} onTheModalClose={closeTheModal} /> */}
 
         <div className={styles.cardContainer}>
           <Card

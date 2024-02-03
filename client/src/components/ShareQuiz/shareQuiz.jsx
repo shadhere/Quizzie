@@ -8,15 +8,12 @@ const ShareQuizModal = ({ generatedLink }) => {
   const handleCopyLink = () => {
     const cleanedURL = generatedLink.replace(/^["\\]+|["\\]+$/g, "");
 
-    // Copy to clipboard
     navigator.clipboard
       .writeText(cleanedURL)
       .then(() => {
-        // Show toast notification on successful copy
         toast.success("Link copied to clipboard!", { autoClose: 2000 });
       })
       .catch((error) => {
-        // Handle the error if copying fails
         toast.error("Failed to copy link to clipboard!");
         console.error("Copy to clipboard failed:", error);
       });
@@ -24,17 +21,14 @@ const ShareQuizModal = ({ generatedLink }) => {
 
   return (
     <div className={styles.shareLinkContainer}>
-      {/* Text with specified style */}
       <ToastContainer />
 
       <div className={styles.text}>Congrats your Quiz is Published!</div>
 
-      {/* Modal content with specified style */}
       <div className={styles.quizLinkContainer}>
         <h9>Your link is here</h9>
       </div>
 
-      {/* Button to copy link to clipboard */}
       <button className={styles.button} onClick={handleCopyLink}>
         Share
       </button>
