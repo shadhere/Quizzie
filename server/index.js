@@ -16,7 +16,7 @@ const attemptRoute = require("./routes/attemptRoute");
 const app = express();
 app.use(
   cors({
-    origin: "https://quizzie-2s1d-824ny9v13-shadhere.vercel.app/",
+    origin: "https://quizzie-2s1d.vercel.app/",
   })
 );
 
