@@ -14,8 +14,13 @@ const analyticsRoutes = require("./routes/analyticsRoutes");
 const attemptRoute = require("./routes/attemptRoute");
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: "https://quizzie-4fc5.vercel.app",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // If you are using cookies or authentication
+};
 
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
