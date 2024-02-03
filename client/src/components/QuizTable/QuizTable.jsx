@@ -9,6 +9,7 @@ import shareIcon from "../../assets/shareIcon.svg";
 import deleteIcon from "../../assets/deleteIcon.svg";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const QuizTable = () => {
   // State variables
@@ -54,7 +55,7 @@ const QuizTable = () => {
         console.log("Fetched additional details:", response.data);
 
         // Set the response.data as the initial data for EditQuiz
-        setQuizToEdit(response.data);
+        setQuizToEdit(response.data.quiz);
 
         setShowEditModal(true);
       })
@@ -236,12 +237,9 @@ const QuizTable = () => {
                   </td>
 
                   <td>
-                    <span
-                      className={styles.iconButton}
-                      onClick={() => handleShare(quiz.quizId)}
-                    >
+                    <Link to={`/questionwiseanalysis/${quiz.quizId}`}>
                       Question Wise Analysis
-                    </span>
+                    </Link>
                   </td>
                 </tr>
               ))}

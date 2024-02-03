@@ -13,7 +13,7 @@ router.get("/dashboard", authenticateUser, async (req, res) => {
 
     // Get the total number of questions across all quizzes
     const totalQuestions = await Quiz.aggregate([
-      { $unwind: "$qna.questions" },
+      { $unwind: "$questions" },
       { $group: { _id: null, count: { $sum: 1 } } },
     ]);
     const questionCount =
@@ -28,7 +28,7 @@ router.get("/dashboard", authenticateUser, async (req, res) => {
 
     // Get information about each quiz created by the user
     const quizzes = await Quiz.find({ createdBy: userId }).select(
-      "title impressions qna.questions createdAt"
+      "title impressions questions createdAt"
     );
 
     res.status(200).json({

@@ -142,10 +142,7 @@ const Modal = ({ isTheModalOpen, onTheModalClose }) => {
   const handleTimerChange = (newTimerValue) => {
     setFormData((prevData) => ({
       ...prevData,
-      qna: {
-        ...prevData.qna,
-        timer: newTimerValue,
-      },
+      timer: newTimerValue, // Update the top-level timer property
     }));
   };
 

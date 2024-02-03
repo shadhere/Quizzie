@@ -2,29 +2,26 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styles from "./quizPage.module.css";
+import Congrats from "../../assets/Congrats.png";
+import Countdown from "react-countdown";
 
 const QuizPage = () => {
   const { id } = useParams();
-  const [quizData, setQuizData] = useState(null);
+  const [quizData, setQuizData] = useState();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [timer, setTimer] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [totalAnswers, setTotalAnswers] = useState(0);
+  const [countdownKey, setCountdownKey] = useState(Date.now());
 
   useEffect(() => {
     let interval;
-
     const fetchQuizAndStartTimer = async () => {
       try {
         const { data } = await axios.get(`http://localhost:4000/quizzes/${id}`);
         setQuizData(data);
-        setTimer(data.timer || 0);
-
-        interval = setInterval(
-          () => setTimer((prevTimer) => (prevTimer > 0 ? prevTimer - 0.1 : 0)),
-          100
-        );
+        console.log("Timer from DB:", data.quiz.timer);
       } catch (error) {
         console.error("Error fetching quiz:", error.message);
       }
@@ -41,48 +38,81 @@ const QuizPage = () => {
       .padStart(2, "0")}/${quizData.quiz.questions.length
       .toString()
       .padStart(2, "0")}`;
-  const formatTimer = () =>
-    `${Math.floor(timer).toString().padStart(2, "0")}.${Math.floor(
-      (timer - Math.floor(timer)) * 10
-    )}`;
+
+  const renderer = ({ minutes, seconds, completed }) => {
+    if (completed) {
+      // Automatically move to the next question when the timer runs out
+      handleNextQuestion();
+      return null;
+    } else {
+      // Display the countdown timer
+      return (
+        <span>
+          {minutes}:{seconds}
+        </span>
+      );
+    }
+  };
+
   const handleAnswerSelection = (selectedOption) => {
     setQuizData((prevData) => {
       const updatedData = { ...prevData };
       const currentQuestionData = updatedData.quiz.questions[currentQuestion];
+
+      setTotalAnswers((prevTotalAnswers) => prevTotalAnswers + 1);
+
+      // Find the index of the selected option
       const selectedIndex = currentQuestionData.options.findIndex(
         (option) => option.text.trim() === selectedOption.trim()
       );
 
-      setTotalAnswers((prevTotalAnswers) => prevTotalAnswers + 1);
+      // Update isSelected for each option
+      const updatedOptions = currentQuestionData.options.map(
+        (option, index) => ({
+          ...option,
+          isSelected: index === selectedIndex,
+        })
+      );
+      currentQuestionData.options = updatedOptions;
 
+      // Determine the correct option index dynamically
       const correctOptionIndex = currentQuestionData.correctOption;
 
-      console.log("selectedIndex:", selectedIndex);
-      console.log("correctOptionIndex:", correctOptionIndex);
+      console.log("Selected Option (Text):", selectedOption);
+      console.log("Selected Index:", selectedIndex);
+      console.log("Correct Option Index:", correctOptionIndex);
 
+      // Check if the selected option is correct
       if (selectedIndex == correctOptionIndex) {
         setCorrectAnswers((prevCorrectAnswers) => prevCorrectAnswers + 1);
       }
+
+      // Set both selected option text and index in the state
+      currentQuestionData.selectedOptionText = selectedOption; // Ensure selected option text is set
+      currentQuestionData.selectedOptionIndex = selectedIndex; // Ensure selected option index is set
 
       return updatedData;
     });
   };
 
-  const handleNextQuestion = () =>
-    setCurrentQuestion((prevQuestion) =>
-      prevQuestion === quizData.quiz.questions.length - 1
-        ? setQuizCompleted(true)
-        : prevQuestion + 1
-    );
-
   const submitQuizAttempt = async () => {
     const quizAttemptData = {
       quizId: id,
-      answers: quizData.quiz.questions.map((question) => ({
-        questionId: question._id,
-        selectedOption:
-          question.options.find((option) => option.isSelected)?.text || null,
-      })),
+      answers: quizData.quiz.questions.map((question) => {
+        const selectedOptionText = question.selectedOptionText || null;
+        const selectedOptionIndex =
+          question.selectedOptionIndex !== undefined
+            ? question.selectedOptionIndex
+            : -1;
+
+        return {
+          questionId: question._id,
+          selectedOption: {
+            text: selectedOptionText,
+            index: selectedOptionIndex,
+          },
+        };
+      }),
     };
 
     try {
@@ -98,6 +128,35 @@ const QuizPage = () => {
     submitQuizAttempt();
   };
 
+  const handleNextQuestion = () => {
+    if (!quizCompleted) {
+      setQuizData((prevData) => {
+        const updatedData = { ...prevData };
+        const currentQuestionData = updatedData.quiz.questions[currentQuestion];
+
+        // Increment the current question index
+        if (updatedData.timer > 0) {
+          setTimer(updatedData.timer);
+        }
+        const nextQuestionIndex = currentQuestion + 1;
+
+        setCountdownKey(Date.now());
+
+        // Update the timer directly in the quizData
+        // Check if it's the last question
+        if (nextQuestionIndex === updatedData.quiz.questions.length) {
+          setQuizCompleted(true);
+        }
+
+        // Return the updated data
+        return updatedData;
+      });
+
+      // Move to the next question using the updated state
+      setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+    }
+  };
+
   if (!quizData) return <div>Loading...</div>;
 
   return (
@@ -107,7 +166,13 @@ const QuizPage = () => {
           <>
             <div className={styles.header}>
               <div className={styles.pageIndex}>{formatPageIndex()}</div>
-              <div className={styles.timer}>{formatTimer()}</div>
+              <div className={styles.timer}>
+                <Countdown
+                  key={countdownKey} // Add key prop
+                  date={Date.now() + quizData.quiz.timer * 1000}
+                  renderer={renderer}
+                />
+              </div>
             </div>
             <h1 className={styles.questionText}>
               {quizData.quiz.questions[currentQuestion].text}
@@ -122,11 +187,30 @@ const QuizPage = () => {
                       option.isSelected ? styles.selectedOption : ""
                     }`}
                   >
-                    {option.image && (
-                      <img src={option.image} alt={`Option ${index + 1}`} />
+                    {option.image && option.text && (
+                      <div className={styles.optionContentboth}>
+                        <div className={styles.optionContenddiv}>
+                          <img
+                            src={option.image}
+                            alt={`Option ${index + 1}`}
+                            className={styles.optionContentimg}
+                          />
+                        </div>
+                        <div className={styles.optionContenddiv}>
+                          {" "}
+                          {option.text}
+                        </div>
+                      </div>
                     )}
-                    {option.text && (
+                    {!option.image && option.text && (
                       <div className={styles.optionText}>{option.text}</div>
+                    )}
+                    {option.image && !option.text && (
+                      <img
+                        src={option.image}
+                        alt={`Option ${index + 1}`}
+                        className={styles.optionimg}
+                      />
                     )}
                   </div>
                 )
@@ -151,11 +235,19 @@ const QuizPage = () => {
           </>
         ) : (
           <div className={styles.quizCompleted}>
-            <h2>Congratulations! Quiz Completed</h2>
-            <img src="../assets/new.png" />
-            <p>
-              Your Score is {correctAnswers} / {totalAnswers}
-            </p>
+            {quizData.quiz.selectedQuizType == "poll" ? (
+              <div className={styles.quizCompleted}>
+                <h2>Thank you for participating in the Poll</h2>
+              </div>
+            ) : (
+              <div>
+                <h2>Congratulations! Quiz Completed</h2>
+                <img src={Congrats} className={styles.quizCompletedimg} />
+                <p className={styles.quizCompletedScore}>
+                  Your Score is {correctAnswers} / {totalAnswers}
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -6,9 +6,11 @@ const authenticateUser = require("../middleware/authenticateUser");
 // Create a new quiz
 router.post("/quizzes", authenticateUser, async (req, res) => {
   try {
-    const { quiz, questions } = req.body;
+    const { quiz, questions, timer, currentQuestion } = req.body;
     console.log("Object Data:", quiz);
     console.log("Array Data:", questions);
+    console.log("Timer", timer);
+    console.log("body", req.body);
 
     // Ensure required fields are present
     if (!quiz || !quiz.title || !quiz.selectedQuizType) {
@@ -23,9 +25,9 @@ router.post("/quizzes", authenticateUser, async (req, res) => {
       selectedQuizType: quiz.selectedQuizType,
       createdBy: req.user._id, // Associating the user with the quiz
       questions: questions, // Use the questions array from the request
-      currentQuestion: quiz.currentQuestion,
+      currentQuestion: currentQuestion,
       maxQuestions: quiz.maxQuestions,
-      timer: quiz.timer,
+      timer: timer,
     });
 
     await newQuiz.save();
@@ -54,9 +56,7 @@ router.get("/quizzes/:id", async (req, res) => {
     const quiz = await Quiz.findById(quizId);
 
     if (!quiz) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Quiz not found" });
+      return res.status(404);
     }
 
     quiz.impressions += 1;

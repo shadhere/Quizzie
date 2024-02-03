@@ -103,10 +103,7 @@ const QnAModal = ({
 
     setFormData((prevData) => ({
       ...prevData,
-      quiz: {
-        ...prevData,
-        timer: timerValue,
-      },
+      timer: timerValue, // Assuming timer is a property of formData
     }));
   };
 
